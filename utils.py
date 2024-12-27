@@ -5,7 +5,7 @@ import pandas as pd
 def load_data(filename):
     data = pd.read_csv(filename)
     y = data["class"]
-    X = data.drop(y, axis=1)
+    X = data.drop(['class'], axis=1)
     return X, y
 
 def sig(z):
