@@ -222,7 +222,7 @@ class DecisionTree():
     
 
 def main():
-    X, y = load_data("data/processed/dataset_1.csv")
+    X, y = load_data("data/processed/dataset_2.csv")
     X = X.to_numpy()
     y = y.to_numpy()
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
