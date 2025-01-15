@@ -1,9 +1,4 @@
-import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
-from sklearn.tree import DecisionTreeClassifier
-from util import load_data
 
 class Node():
     def __init__(self, feature=None, threshold=None, left=None, right=None, gain=None, value=None):
@@ -44,7 +39,7 @@ class DecisionTree():
         """
         Splits the given dataset into two datasets based on the given feature and threshold.
 
-        Parameters:
+        Args:
             dataset (ndarray): Input dataset.
             feature (int): Index of the feature to be split on.
             threshold (float): Threshold value to split the feature on.
@@ -66,7 +61,7 @@ class DecisionTree():
         """
         Computes the entropy of the given label values.
 
-        Parameters:
+        Args:
             y (ndarray): Input label values.
 
         Returns:
@@ -86,7 +81,7 @@ class DecisionTree():
         """
         Computes the information gain from splitting the parent dataset into two datasets.
 
-        Parameters:
+        Args:
             parent (ndarray): Input parent dataset.
             left (ndarray): Subset of the parent dataset after split on a feature.
             right (ndarray): Subset of the parent dataset after split on a feature.
@@ -219,23 +214,3 @@ class DecisionTree():
             predictions.append(prediction)
         np.array(predictions)
         return predictions
-    
-
-def main():
-    X, y = load_data("data/processed/dataset_2.csv")
-    X = X.to_numpy()
-    y = y.to_numpy()
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    
-    dtr = DecisionTreeClassifier(min_samples_split=2, max_depth=2)
-    dtr.fit(X_train, y_train)
-    predictions = dtr.predict(X_test)
-    print(f"Accuracy of sklearn model: {accuracy_score(y_test, predictions)}")
-    
-    dt = DecisionTree(min_samples=2, max_depth=2)
-    dt.fit(X_train, y_train)
-    predictions = dt.predict(X_test)
-    print(f"Accuracy of my model: {accuracy_score(y_test, predictions)}")
-    
-if __name__ == "__main__":
-    main()
