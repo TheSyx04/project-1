@@ -7,21 +7,12 @@ class MyLogisticRegression():
     
     def __init__(self, learning_rate=0.01, epochs=1000, lambda_=None):
         """
-        Initializes the logistic regression model with the given parameters.
+        Constructor for Logistic Regression class.
 
         Parameters:
-            learning_rate (float): The learning rate for gradient descent. Default is 0.01.
-            epochs (int): The number of iterations for training the model. Default is 1000.
-            lambda_ (float): The regularization parameter. Default is None.
-
-        Attributes:
-            lr (float): The learning rate for gradient descent.
+            learning_rate (float): The learning rate for gradient descent.
             epochs (int): The number of iterations for training the model.
             lambda_ (float): The regularization parameter.
-            weights (ndarray): The weights of the logistic regression model.
-            bias (float): The bias term of the logistic regression model.
-            train_accuracies (list): A list to store training accuracies over epochs.
-            losses (list): A list to store loss values over epochs.
         """
         
         self.lr = learning_rate
