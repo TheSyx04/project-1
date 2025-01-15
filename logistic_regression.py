@@ -1,15 +1,29 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import math
-import warnings
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
-from sklearn.linear_model import LogisticRegression
-from util import *
-warnings.filterwarnings("ignore")
 
 class MyLogisticRegression():
+    
     def __init__(self, learning_rate=0.01, epochs=1000, lambda_=None):
+        """
+        Initializes the logistic regression model with the given parameters.
+
+        Parameters:
+            learning_rate (float): The learning rate for gradient descent. Default is 0.01.
+            epochs (int): The number of iterations for training the model. Default is 1000.
+            lambda_ (float): The regularization parameter. Default is None.
+
+        Attributes:
+            lr (float): The learning rate for gradient descent.
+            epochs (int): The number of iterations for training the model.
+            lambda_ (float): The regularization parameter.
+            weights (ndarray): The weights of the logistic regression model.
+            bias (float): The bias term of the logistic regression model.
+            train_accuracies (list): A list to store training accuracies over epochs.
+            losses (list): A list to store loss values over epochs.
+        """
+        
         self.lr = learning_rate
         self.epochs = epochs
         self.lambda_ = lambda_
@@ -92,10 +106,22 @@ class MyLogisticRegression():
         return gradients_w, gradient_b
     
     def update_model_parameters(self, error_w, error_b):
+        """
+        Update the model parameters (weights and bias) using gradient descent.
+
+        Args:
+            error_w (ndarray): The gradient of the loss with respect to the weights.
+            error_b (float): The gradient of the loss with respect to the bias.
+
+        """
+        
         self.weights = self.weights - self.lr * error_w
         self.bias = self.bias - self.lr * error_b
         
     def fit(self, X, y):
+        """
+        Fit the logistic regression model to the training data.
+        """
 
         self.weights = np.zeros(X.shape[1])
         self.bias = 0
@@ -116,31 +142,28 @@ class MyLogisticRegression():
                 print(f"Iteration {i:4}: Cost {float(loss):8.2f}   ")
             
     def predict(self, X):
+        """
+        Predict the class labels for the given input data.
+
+        Args:
+        X (ndarray): Input data.
+
+        Returns:
+        list: Predicted class labels for each sample in the input data.
+        """
+        
         x_dot_weights = np.matmul(X, self.weights.transpose()) + self.bias
         probabilities = self._sigmoid(x_dot_weights)
         return [1 if p > 0.5 else 0 for p in probabilities]
     
     def plot_loss(self):
+        """
+        Plots the loss over epochs.
+        """
+        
         plt.plot(self.losses)
         plt.title("Loss over epochs")
         plt.xlabel("Epochs")
         plt.ylabel("Loss")
         plt.show()
     
-def main():
-    X, y = load_data("data/processed/dataset_1.csv")
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    
-    my_lr = MyLogisticRegression(0.01, 1000, 0.005)
-    my_lr.fit(X_train, y_train)
-    y_pred = my_lr.predict(X_test)
-    
-    lr = LogisticRegression(max_iter=1000)
-    lr.fit(X_train, y_train)
-    y_pred_sklearn = lr.predict(X_test)
-    
-    print("My logistic regression accuracy: ", accuracy_score(y_test, y_pred))
-    print("Sckit-learn logistic regression accuracy: ", accuracy_score(y_test, y_pred_sklearn))
-    
-if __name__ == "__main__":
-    main()
