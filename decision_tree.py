@@ -73,7 +73,7 @@ class DecisionTree():
         unique, counts = np.unique(y, return_counts=True)
         for count in counts:
             p = count / len(y)
-            entropy -= p * np.log2(p)
+            entropy -= p * np.log2(p + 1e-9)
         
         return entropy
     
